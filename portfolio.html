@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOKESH | Photography Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            transition: 0.3s;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('images/gallery-main/IMG_5025.JPG') center/cover no-repeat;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: #aaa;
+            letter-spacing: 2px;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* Main Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: #1a1a1a;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+
+        .gallery-item-text {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        /* Sub-Gallery */
+        .sub-gallery-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .sub-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .sub-gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: #1a1a1a;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .sub-gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .sub-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .sub-gallery-item:hover img {
+            transform: scale(1.03);
+        }
+
+        /* View Control */
+        .gallery-view {
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .gallery-view.hidden {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            transform: translateY(20px);
+        }
+
+        /* About */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .about-text p {
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .about-image {
+            aspect-ratio: 1;
+            background: #1a1a1a;
+            border-radius: 8px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Contact */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 4px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            background: #ff6b6b;
+            color: #fff;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        #backBtn {
+            width: auto;
+            padding: 0.75rem 1.5rem;
+            display: inline-block;
+            margin-top: 1rem;
+            background: #df7575;
+        }
+
+        #backBtn:hover {
+            background: #444;
+        }
+
+        .submit-btn:hover {
+            background: #ff5252;
+        }
+
+        .submit-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .form-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+
+        .form-message.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4caf50;
+            color: #4caf50;
+        }
+
+        .form-message.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #f44336;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            padding: 2rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .social-links a:hover {
+            color: #ff6b6b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transition: left 0.3s;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery,
+            .sub-gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 3rem 5%;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .sub-gallery-header {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 1rem 5%;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .submit-btn,
+            #backBtn {
+                padding: 0.875rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">LOKESH</div>
+            <div class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>PHOTOGRAPHY</h1>
+            <p>Capturing Moments, Creating Memories</p>
+        </div>
+    </section>
+
+    <section id="gallery" class="section">
+        <h2 class="section-title">Gallery</h2>
+
+        <div id="mainGalleryView" class="gallery-view">
+            <div class="gallery" id="mainGallery">
+                <div class="gallery-item category-item" data-category="brands">
+                    <img src="images/brands/IMG_5373.PNG" alt="Brands Shoot">
+                    <div class="gallery-item-overlay">
+                        <span class="gallery-item-text">Brands Shoot</span>
+                    </div>
+                </div>
+                <div class="gallery-item category-item" data-category="wildlife">
+                    <img src="images/wildlife/IMG_4762.JPG" alt="Wildlife">
+                    <div class="gallery-item-overlay">
+                        <span class="gallery-item-text">Wildlife</span>
+                    </div>
+                </div>
+                <div class="gallery-item category-item" data-category="street_photography">
+                    <img src="images/street_photos/IMG_9743.JPG" alt="Street Photography">
+                    <div class="gallery-item-overlay">
+                        <span class="gallery-item-text">Street Photography</span>
+                    </div>
+                </div>
+                <div class="gallery-item category-item" data-category="classics">
+                    <img src="images/classics/IMG_5024.JPG" alt="Classics">
+                    <div class="gallery-item-overlay">
+                        <span class="gallery-item-text">Classics</span>
+                    </div>
+                </div>
+                <div class="gallery-item category-item" data-category="food">
+                    <img src="images/food/IMG_3639.JPG" alt="Food">
+                    <div class="gallery-item-overlay">
+                        <span class="gallery-item-text">Food</span>
+                    </div>
+                </div>
+                <div class="gallery-item category-item" data-category="travel">
+                    <img src="images/travel/IMG_3951.JPG" alt="Travel">
+                    <div class="gallery-item-overlay">
+                        <span class="gallery-item-text">Travel</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="subGalleryView" class="gallery-view hidden">
+            <div class="sub-gallery-header">
+                <h2 class="section-title" id="subGalleryTitle">Category</h2>
+                <button id="backBtn" class="submit-btn">← Back to Gallery</button>
+            </div>
+            <div class="sub-gallery-grid" id="subGalleryGrid">
+                <!-- Dynamically filled -->
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="about">
+            <div class="about-text">
+                <h2>About Me</h2>
+                <p>Hello! I'm Lokesh, a passionate photographer dedicated to capturing the beauty of the world through my lens. With years of experience in various photography styles, I specialize in landscape, portrait, and event photography.</p>
+                <p>Every photograph tells a story, and I believe in creating images that evoke emotion and preserve precious moments.</p>
+                <p>Let's work together to create something beautiful.</p>
+            </div>
+            <div class="about-image">
+                <img src="images/me/IMG_66501.JPEG" alt="Lokesh">
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <h2 class="section-title">Get In Touch</h2>
+        <form class="contact-form" id="contactForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+            <div class="form-message" id="formMessage"></div>
+        </form>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/bigboys_photograpy?igsh=OGFkbTM5bnBva2F5" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+        <p>&copy; 2025 Lokesh Photography. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth Scrolling & Mobile Menu
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    document.getElementById('navLinks').classList.remove('active');
+                    document.getElementById('mobileMenuBtn').classList.remove('active');
+                }
+            });
+        });
+
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active');
+        });
+
+        // Close menu on outside click
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('nav')) {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+            }
+        });
+
+        // ✅ Gallery Navigation Logic
+        const mainGalleryView = document.getElementById('mainGalleryView');
+        const subGalleryView = document.getElementById('subGalleryView');
+        const subGalleryTitle = document.getElementById('subGalleryTitle');
+        const subGalleryGrid = document.getElementById('subGalleryGrid');
+        const backBtn = document.getElementById('backBtn');
+
+        const categoryImages = {
+            brands: [
+                "images/brands/IMG_5365.PNG",
+                "images/brands/IMG_5367.PNG",
+                "images/brands/IMG_5373.PNG",
+                "images/brands/IMG_9082.PNG",
+                "images/brands/IMG_9083.PNG",
+                "images/brands/IMG_9245.JPEG"
+            ],
+            wildlife: [
+                "images/wildlife/IMG_4762.JPG",
+                "images/wildlife/IMG_5172.JPG",
+                "images/wildlife/IMG_5173.JPG",
+                "images/wildlife/IMG_5178.JPG",
+                "images/wildlife/IMG_5190.PNG",
+                "images/wildlife/IMG_5199.PNG"
+            ],
+            street_photography: [
+                "images/street_photos/IMG_5227.PNG",
+                "images/street_photos/IMG_7152.PNG",
+                "images/street_photos/IMG_9356.PNG",
+                "images/street_photos/IMG_9578.PNG",
+                "images/street_photos/IMG_9743.JPG"
+            ],
+            classics: [
+                "images/classics/IMG_5019.JPG",
+                "images/classics/IMG_5024.JPG",
+                "images/classics/IMG_5026.PNG",
+                "images/classics/IMG_5028.JPG",
+                "images/classics/IMG_5029.JPG",
+                "images/classics/IMG_5033.PNG"
+            ],
+            food: [
+                "images/food/IMG_3639.JPG",
+                "images/food/IMG_7005.JPG"
+            ],
+            travel: [
+                "images/travel/IMG_3951.JPG"
+            ]
+        };
+
+        const categoryNames = {
+            brands: "Brands Shoot",
+            wildlife: "Wildlife",
+            street_photography: "Street Photography",
+            classics: "Classics",
+            food: "Food",
+            travel: "Travel"
+        };
+
+        document.getElementById('mainGallery').addEventListener('click', (e) => {
+            const item = e.target.closest('.category-item');
+            if (!item) return;
+            const category = item.getAttribute('data-category');
+            loadSubGallery(category);
+        });
+
+        function loadSubGallery(category) {
+            const title = categoryNames[category] || "Gallery";
+            const images = categoryImages[category] || [];
+
+            if (images.length === 0) {
+                subGalleryTitle.textContent = title;
+                subGalleryGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #aaa;">No images available in this category yet.</p>`;
+            } else {
+                subGalleryTitle.textContent = title;
+                subGalleryGrid.innerHTML = images.map((src, i) => `
+                    <div class="sub-gallery-item">
+                        <img src="${src}" alt="${title} — Image ${i + 1}" loading="lazy">
+                    </div>
+                `).join('');
+            }
+
+            mainGalleryView.classList.add('hidden');
+            subGalleryView.classList.remove('hidden');
+            
+            setTimeout(() => {
+                subGalleryView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
+        }
+
+        backBtn.addEventListener('click', () => {
+            subGalleryView.classList.add('hidden');
+            mainGalleryView.classList.remove('hidden');
+            setTimeout(() => {
+                mainGalleryView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
+        });
+
+        // ✅ REAL EMAIL SENDING VIA FORMSPREE (AJAX)
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formMessage = document.getElementById('formMessage');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+
+                if (!name || !email || !message) {
+                    showMessage('Please fill in all fields', 'error');
+                    return;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showMessage('Please enter a valid email address', 'error');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+
+                try {
+                    const formData = new FormData();
+                    formData.append('name', name);
+                    formData.append('email', email);
+                    formData.append('message', message);
+
+                    const response = await fetch('https://formspree.io/f/mlgrjojv', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        showMessage('Thank you! Your message has been sent.', 'success');
+                        contactForm.reset();
+                    } else {
+                        showMessage('Oops! Failed to send. Please try again.', 'error');
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                    showMessage('Network error. Please check your connection.', 'error');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+                }
+            });
+        }
+
+        function showMessage(text, type) {
+            formMessage.textContent = text;
+            formMessage.className = `form-message ${type}`;
+            formMessage.style.display = 'block';
+            setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Optional: Preload hero image
+        window.addEventListener('DOMContentLoaded', () => {
+            const heroImage = new Image();
+            heroImage.src = 'images/gallery-main/IMG_5025.JPG';
+        });
+    </script>
+</body>
+</html>
