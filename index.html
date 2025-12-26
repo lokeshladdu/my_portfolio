@@ -18,6 +18,10 @@
             overflow-x: hidden;
         }
 
+        body.lightbox-open {
+            overflow: hidden;
+        }
+
         header {
             position: fixed;
             top: 0;
@@ -41,6 +45,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: 2px;
+            z-index: 1001;
         }
 
         .nav-links {
@@ -66,6 +71,7 @@
             flex-direction: column;
             cursor: pointer;
             gap: 5px;
+            z-index: 1001;
         }
 
         .mobile-menu-btn span {
@@ -94,10 +100,11 @@
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
                         url('images/gallery-main/IMG_5025.JPG') center/cover no-repeat;
             position: relative;
+            padding: 0 5%;
         }
 
         .hero-content h1 {
-            font-size: 4rem;
+            font-size: clamp(2rem, 8vw, 4rem);
             margin-bottom: 1rem;
             font-weight: 300;
             letter-spacing: 3px;
@@ -105,7 +112,7 @@
         }
 
         .hero-content p {
-            font-size: 1.3rem;
+            font-size: clamp(0.9rem, 3vw, 1.3rem);
             color: #aaa;
             letter-spacing: 2px;
             animation: fadeInUp 1s ease 0.2s both;
@@ -129,7 +136,7 @@
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
             margin-bottom: 3rem;
             text-align: center;
             font-weight: 300;
@@ -139,7 +146,7 @@
         /* Main Gallery */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
 
@@ -188,7 +195,7 @@
 
         .gallery-item-text {
             color: #fff;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             font-weight: 300;
             letter-spacing: 1px;
             text-align: center;
@@ -233,6 +240,119 @@
             transform: scale(1.03);
         }
 
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 4px;
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s, transform 0.3s;
+            line-height: 1;
+        }
+
+        .lightbox-close:hover {
+            color: #ff6b6b;
+            transform: rotate(90deg);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 1rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s, transform 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 107, 107, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
         /* View Control */
         .gallery-view {
             opacity: 1;
@@ -256,7 +376,7 @@
         }
 
         .about-text h2 {
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
             margin-bottom: 1.5rem;
             font-weight: 300;
         }
@@ -265,6 +385,7 @@
             line-height: 1.8;
             color: #ccc;
             margin-bottom: 1rem;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
         }
 
         .about-image {
@@ -295,6 +416,7 @@
             margin-bottom: 0.5rem;
             color: #ccc;
             letter-spacing: 1px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
         .form-group input,
@@ -307,7 +429,7 @@
             border-radius: 4px;
             font-family: inherit;
             transition: border-color 0.3s;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
         .form-group input:focus,
@@ -328,7 +450,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
             letter-spacing: 1px;
             transition: background 0.3s;
             width: 100%;
@@ -361,6 +483,7 @@
             border-radius: 4px;
             text-align: center;
             display: none;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
         .form-message.success {
@@ -396,13 +519,34 @@
             text-decoration: none;
             transition: color 0.3s;
             font-weight: 500;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
         .social-links a:hover {
             color: #ff6b6b;
         }
 
-        /* Responsive */
+        footer p {
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+
+        /* Tablet Responsive */
+        @media (max-width: 1024px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .sub-gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+
+            .section {
+                padding: 4rem 5%;
+            }
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: flex;
@@ -410,36 +554,51 @@
 
             .nav-links {
                 position: fixed;
-                top: 80px;
+                top: 0;
                 left: -100%;
                 width: 100%;
+                height: 100vh;
                 background: rgba(10, 10, 10, 0.98);
                 flex-direction: column;
-                padding: 2rem;
-                gap: 1.5rem;
+                padding: 6rem 2rem 2rem;
+                gap: 2rem;
                 transition: left 0.3s;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                align-items: center;
+                justify-content: flex-start;
             }
 
             .nav-links.active {
                 left: 0;
             }
 
-            .hero-content h1 {
-                font-size: 2.5rem;
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 0.5rem;
             }
 
-            .hero-content p {
-                font-size: 1rem;
+            .hero {
+                min-height: 100vh;
+                height: auto;
             }
 
             .about {
                 grid-template-columns: 1fr;
+                gap: 2rem;
             }
 
-            .gallery,
+            .about-image {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
             .sub-gallery-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
 
             .section {
@@ -447,14 +606,49 @@
             }
 
             .section-title {
+                margin-bottom: 2rem;
+            }
+
+            .social-links {
+                gap: 1.5rem;
+            }
+
+            .gallery-item,
+            .sub-gallery-item {
+                min-height: 250px;
+            }
+
+            .gallery-item-overlay {
+                opacity: 0.8;
+                background: rgba(0, 0, 0, 0.5);
+            }
+
+            .lightbox-close {
+                top: 10px;
+                right: 10px;
                 font-size: 2rem;
             }
 
-            .sub-gallery-header {
-                text-align: center;
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+
+            .lightbox-content {
+                max-width: 95%;
             }
         }
 
+        /* Small Mobile Devices */
         @media (max-width: 480px) {
             header {
                 padding: 1rem 5%;
@@ -465,12 +659,75 @@
             }
 
             .hero-content h1 {
-                font-size: 2rem;
+                letter-spacing: 1px;
+            }
+
+            .hero-content p {
+                letter-spacing: 1px;
             }
 
             .submit-btn,
             #backBtn {
                 padding: 0.875rem 2rem;
+                font-size: 0.95rem;
+            }
+
+            .section {
+                padding: 2.5rem 5%;
+            }
+
+            .gallery {
+                gap: 1.25rem;
+            }
+
+            .sub-gallery-grid {
+                gap: 1.25rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.25rem;
+            }
+
+            .about {
+                gap: 1.5rem;
+            }
+
+            .social-links {
+                gap: 1rem;
+            }
+
+            .gallery-item,
+            .sub-gallery-item {
+                min-height: 220px;
+            }
+        }
+
+        /* Extra Small Devices */
+        @media (max-width: 360px) {
+            header {
+                padding: 0.875rem 4%;
+            }
+
+            .section {
+                padding: 2rem 4%;
+            }
+
+            .gallery,
+            .sub-gallery-grid {
+                gap: 1rem;
+            }
+        }
+
+        /* Landscape mobile orientation */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero {
+                height: auto;
+                min-height: 100vh;
+                padding: 6rem 5% 2rem;
+            }
+
+            .nav-links {
+                padding: 5rem 2rem 2rem;
             }
         }
     </style>
@@ -512,19 +769,19 @@
                     </div>
                 </div>
                 <div class="gallery-item category-item" data-category="wildlife">
-                    <img src="images/wildlife/IMG_4762.JPG" alt="Wildlife">
+                    <img src="images/wildlife/IMG_5199.PNG" alt="Wildlife">
                     <div class="gallery-item-overlay">
                         <span class="gallery-item-text">Wildlife</span>
                     </div>
                 </div>
                 <div class="gallery-item category-item" data-category="street_photography">
-                    <img src="images/street_photos/IMG_9743.JPG" alt="Street Photography">
+                    <img src="images/street_photos/IMG_7167.JPG" alt="Street Photography">
                     <div class="gallery-item-overlay">
                         <span class="gallery-item-text">Street Photography</span>
                     </div>
                 </div>
                 <div class="gallery-item category-item" data-category="classics">
-                    <img src="images/classics/IMG_5024.JPG" alt="Classics">
+                    <img src="images/classics/IMG_003.jpeg" alt="Classics">
                     <div class="gallery-item-overlay">
                         <span class="gallery-item-text">Classics</span>
                     </div>
@@ -541,6 +798,12 @@
                         <span class="gallery-item-text">Travel</span>
                     </div>
                 </div>
+                <div class="gallery-item category-item" data-category="architecture">
+                    <img src="images/architecture/IMG_4514.PNG" alt="architecture">
+                    <div class="gallery-item-overlay">
+                        <span class="gallery-item-text">Architecture</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -554,6 +817,16 @@
             </div>
         </div>
     </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">&times;</button>
+            <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
+            <img src="" alt="" class="lightbox-image" id="lightboxImage">
+            <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
+        </div>
+    </div>
 
     <section id="about" class="section">
         <div class="about">
@@ -610,7 +883,6 @@
                         top: target.offsetTop - 80,
                         behavior: 'smooth'
                     });
-                    // Close mobile menu if open
                     document.getElementById('navLinks').classList.remove('active');
                     document.getElementById('mobileMenuBtn').classList.remove('active');
                 }
@@ -625,7 +897,6 @@
             mobileMenuBtn.classList.toggle('active');
         });
 
-        // Close menu on outside click
         document.addEventListener('click', (e) => {
             if (!e.target.closest('nav')) {
                 navLinks.classList.remove('active');
@@ -633,7 +904,6 @@
             }
         });
 
-        // ✅ Gallery Navigation Logic
         const mainGalleryView = document.getElementById('mainGalleryView');
         const subGalleryView = document.getElementById('subGalleryView');
         const subGalleryTitle = document.getElementById('subGalleryTitle');
@@ -645,9 +915,11 @@
                 "images/brands/IMG_5365.PNG",
                 "images/brands/IMG_5367.PNG",
                 "images/brands/IMG_5373.PNG",
-                "images/brands/IMG_9082.PNG",
+                "images/brands/IMG_7174.PNG",
                 "images/brands/IMG_9083.PNG",
-                "images/brands/IMG_9245.JPEG"
+                "images/brands/IMG_7176.JPEG",
+                "images/brands/IMG_7177.PNG",
+                "images/brands/IMG_2132.jpeg"
             ],
             wildlife: [
                 "images/wildlife/IMG_4762.JPG",
@@ -655,29 +927,55 @@
                 "images/wildlife/IMG_5173.JPG",
                 "images/wildlife/IMG_5178.JPG",
                 "images/wildlife/IMG_5190.PNG",
-                "images/wildlife/IMG_5199.PNG"
+                "images/wildlife/IMG_5199.PNG",
+                "images/wildlife/IMG_5135.JPG",
+                "images/wildlife/IMG_5183.JPG"
             ],
             street_photography: [
                 "images/street_photos/IMG_5227.PNG",
                 "images/street_photos/IMG_7152.PNG",
                 "images/street_photos/IMG_9356.PNG",
-                "images/street_photos/IMG_9578.PNG",
-                "images/street_photos/IMG_9743.JPG"
+                "images/street_photos/IMG_7167.JPG",
+                "images/street_photos/IMG_9743.JPG",
+                "images/street_photos/IMG_7170.PNG",
+                "images/street_photos/IMG_7173.JPG",
+                "images/street_photos/IMG_7201.PNG"
             ],
             classics: [
-                "images/classics/IMG_5019.JPG",
-                "images/classics/IMG_5024.JPG",
-                "images/classics/IMG_5026.PNG",
-                "images/classics/IMG_5028.JPG",
-                "images/classics/IMG_5029.JPG",
-                "images/classics/IMG_5033.PNG"
+                "images/classics/IMG_003.jpeg",
+                "images/classics/IMG_004.jpeg",
+                "images/classics/IMG_005.jpeg",
+                "images/classics/IMG_006.jpeg",
+                "images/classics/IMG_007.jpeg",
+                "images/classics/IMG_008.jpeg",
+                "images/classics/IMG_009.jpeg",
+                "images/classics/IMG_010.jpeg"
             ],
             food: [
                 "images/food/IMG_3639.JPG",
-                "images/food/IMG_7005.JPG"
+                "images/food/IMG_7005.JPG",
+                "images/food/IMG_7026.JPG",
+                "images/food/IMG_7179.PNG",
+                "images/food/IMG_7182.JPG",
+                "images/food/IMG_XX.jpeg"
             ],
             travel: [
-                "images/travel/IMG_3951.JPG"
+                "images/travel/IMG_3951.JPG",
+                "images/travel/IMG_3932.PNG",
+                "images/travel/IMG_3933.PNG",
+                "images/travel/IMG_3956.PNG",
+                "images/travel/IMG_7155.PNG",
+                "images/travel/IMG_7178.PNG",
+                "images/travel/IMG_001.jpeg",
+                "images/travel/IMG_002.jpeg"
+            ],
+            architecture: [
+                "images/architecture/IMG_4514.PNG",
+                "images/architecture/IMG_4515.PNG",
+                "images/architecture/IMG_4517.PNG",
+                "images/architecture/IMG_4945.JPG",
+                "images/architecture/IMG_7184.PNG",
+                "images/architecture/IMG_YY.jpeg"
             ]
         };
 
@@ -687,8 +985,69 @@
             street_photography: "Street Photography",
             classics: "Classics",
             food: "Food",
-            travel: "Travel"
+            travel: "Travel",
+            architecture: "Architecture"
         };
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+        
+        let currentImages = [];
+        let currentImageIndex = 0;
+
+        function openLightbox(imageSrc, imagesArray, index) {
+            currentImages = imagesArray;
+            currentImageIndex = index;
+            lightboxImage.src = imageSrc;
+            lightboxImage.alt = `Image ${index + 1}`;
+            lightbox.classList.add('active');
+            document.body.classList.add('lightbox-open');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.classList.remove('lightbox-open');
+        }
+
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+            lightboxImage.src = currentImages[currentImageIndex];
+            lightboxImage.alt = `Image ${currentImageIndex + 1}`;
+        }
+
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+            lightboxImage.src = currentImages[currentImageIndex];
+            lightboxImage.alt = `Image ${currentImageIndex + 1}`;
+        }
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxNext.addEventListener('click', showNextImage);
+        lightboxPrev.addEventListener('click', showPrevImage);
+
+        // Close lightbox on background click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (e.key === 'ArrowRight') {
+                showNextImage();
+            } else if (e.key === 'ArrowLeft') {
+                showPrevImage();
+            }
+        });
 
         document.getElementById('mainGallery').addEventListener('click', (e) => {
             const item = e.target.closest('.category-item');
@@ -707,10 +1066,19 @@
             } else {
                 subGalleryTitle.textContent = title;
                 subGalleryGrid.innerHTML = images.map((src, i) => `
-                    <div class="sub-gallery-item">
+                    <div class="sub-gallery-item" data-index="${i}">
                         <img src="${src}" alt="${title} — Image ${i + 1}" loading="lazy">
                     </div>
                 `).join('');
+
+                // Add click event to sub-gallery items for lightbox
+                subGalleryGrid.querySelectorAll('.sub-gallery-item').forEach((item) => {
+                    item.addEventListener('click', () => {
+                        const index = parseInt(item.getAttribute('data-index'));
+                        const imgSrc = item.querySelector('img').src;
+                        openLightbox(imgSrc, images, index);
+                    });
+                });
             }
 
             mainGalleryView.classList.add('hidden');
@@ -729,7 +1097,6 @@
             }, 50);
         });
 
-        // ✅ REAL EMAIL SENDING VIA FORMSPREE (AJAX)
         const contactForm = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
         const formMessage = document.getElementById('formMessage');
@@ -795,7 +1162,6 @@
             }, 5000);
         }
 
-        // Optional: Preload hero image
         window.addEventListener('DOMContentLoaded', () => {
             const heroImage = new Image();
             heroImage.src = 'images/gallery-main/IMG_5025.JPG';
